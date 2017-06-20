@@ -12,19 +12,20 @@ while [[ "$1" ]]; do
 	shift
 done
 
-[[ -z "$BINDIR" ]] && BINDIR="bin"
-[[ -z "$CONFDIR" ]] && CONFDIR="etc/neofetch"
-[[ -z "$ASCIIDIR" ]] && ASCIIDIR="share/neofetch/ascii/distro"
-[[ -z "$MANDIR" ]] && MANDIR="share/man/man1"
-[[ -z "$PREFIX" ]] && PREFIX="usr"
+[[ -z "$BINDIR" ]] && BINDIR="/bin"
+[[ -z "$CONFDIR" ]] && CONFDIR="/etc/neofetch"
+[[ -z "$ASCIIDIR" ]] && ASCIIDIR="/usr/share/neofetch/ascii/distro"
+[[ -z "$MANDIR" ]] && MANDIR="/usr/share/man/man1"
 
+mkdir -p "${DESTDIR}""${PREFIX}""${BINDIR}"
+mkdir -p "${DESTDIR}""${PREFIX}""${CONFDIR}"
+mkdir -p "${DESTDIR}""${PREFIX}""${ASCIIDIR}"
+mkdir -p "${DESTDIR}""${PREFIX}""${MANDIR}"
 
-mkdir -p "${DESTDIR}"/"${PREFIX}"/"${BINDIR}"
-mkdir -p "${DESTDIR}"/"${PREFIX}"/"${CONFDIR}"
-mkdir -p "${DESTDIR}"/"${PREFIX}"/"${ASCIIDIR}"
-mkdir -p "${DESTDIR}"/"${PREFIX}"/"${MANDIR}"
+sed -i -e "s|CONFDIR|${PREFIX}${CONFDIR}|g" neofetch
+sed -i -e "s|ASCIIDIR|${PREFIX}${ASCIIDIR}|g" neofetch
 
-cp -p neofetch "${DESTDIR}"/"${PREFIX}"/"${BINDIR}"
-cp -p config/config "${DESTDIR}"/"${PREFIX}"/"${CONFDIR}"
-cp -p ascii/distro/* "${DESTDIR}"/"${PREFIX}"/"${ASCIIDIR}"
-cp -p neofetch.1 "${DESTDIR}"/"${PREFIX}"/"${MANDIR}"
+cp -p neofetch "${DESTDIR}""${PREFIX}""${BINDIR}"
+cp -p config/config "${DESTDIR}""${PREFIX}""${CONFDIR}"
+cp -p ascii/distro/* "${DESTDIR}""${PREFIX}""${ASCIIDIR}"
+cp -p neofetch.1 "${DESTDIR}""${PREFIX}""${MANDIR}"
