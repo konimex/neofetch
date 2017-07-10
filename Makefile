@@ -1,3 +1,5 @@
+PREFIX = /usr
+
 all:
 	@echo Run 'make install' to install Neofetch.
 

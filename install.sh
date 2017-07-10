@@ -24,11 +24,10 @@ mkdir -p "${DESTDIR}""${PREFIX}""${MANDIR}"
 sed -i -e "s|ASCIIDIR|${PREFIX}${ASCIIDIR}|g" neofetch
 
 cp -p neofetch "${DESTDIR}""${PREFIX}""${BINDIR}"
-cp -p config/config.conf "${DESTDIR}""${PREFIX}""${CONFDIR}"
 cp -p ascii/distro/* "${DESTDIR}""${PREFIX}""${ASCIIDIR}"
 cp -p neofetch.1 "${DESTDIR}""${PREFIX}""${MANDIR}"
 
-if [ -z "$PREFIX" ] || [ "$PREFIX" = "/usr" ]; then
+if [ "$PREFIX" = "/usr" ]; then
 	mkdir -p "${DESTDIR}""${CONFDIR}"
 	sed -i -e "s|CONFDIR|${CONFDIR}|g" neofetch
 	cp -p config/config.conf "${DESTDIR}""${CONFDIR}"
