@@ -1166,6 +1166,16 @@ get_cpu() {
         ;;
     esac
 
+    # Remove CPU brand from the output.
+    if [[ "$cpu_brand" == "off" ]]; then
+        cpu="${cpu/AMD }"
+        cpu="${cpu/Intel }"
+        cpu="${cpu/Core(TM)* Duo }"
+        cpu="${cpu/Core(TM)* Quad }"
+        cpu="${cpu/Core(TM)* Extreme }"
+        cpu="${cpu/Qualcomm }"
+    fi
+
     # Remove un-needed patterns from cpu output.
     cpu="${cpu//(TM)}"
     cpu="${cpu//(tm)}"
@@ -1178,7 +1188,8 @@ get_cpu() {
     cpu="${cpu//Six-Core}"
     cpu="${cpu//Eight-Core}"
     cpu="${cpu//, * Compute Cores}"
-    cpu="${cpu//Core}"
+    [[ "$cpu" != *"Extreme"* || "$cpu" == *"Duo"* || "$cpu" == *"Quad"* ]] && \
+        cpu="${cpu//Core}"
     cpu="${cpu//(\"AuthenticAMD\"*)}"
     cpu="${cpu//with Radeon * Graphics}"
     cpu="${cpu//, altivec supported}"
@@ -1189,14 +1200,6 @@ get_cpu() {
     # Trim spaces from core and speed output
     cores="${cores//[[:space:]]}"
     speed="${speed//[[:space:]]}"
-
-    # Remove CPU brand from the output.
-    if [[ "$cpu_brand" == "off" ]]; then
-        cpu="${cpu/AMD }"
-        cpu="${cpu/Intel }"
-        cpu="${cpu/Core? Duo }"
-        cpu="${cpu/Qualcomm }"
-    fi
 
     # Add CPU cores to the output.
     [[ "$cpu_cores" != "off" && "$cores" ]] && \
